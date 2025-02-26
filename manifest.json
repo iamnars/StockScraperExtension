@@ -3,7 +3,7 @@
     "name": "Stock Scraper",
     "version": "1.0",
     "description": "Scrapes stock data from Investing.com after page load",
-    "permissions": ["activeTab", "downloads"],
+    "permissions": ["activeTab", "downloads", "identity", "scripting"],
     "content_scripts": [
     {
         "matches": ["https://*.investing.com/equities/*"],
@@ -16,5 +16,12 @@
     "default_icon": {
         "48": "icon48.png"
     }
+    },
+    "oauth2": {
+        "client_id": "750876692974-8472j67r6sq8ui2cvqdhsgd7sesorji3.apps.googleusercontent.com",
+        "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
+    },
+    "background": {
+    "service_worker": "background.js"
     }
   }

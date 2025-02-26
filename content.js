@@ -1,4 +1,4 @@
-// Updated content.js to rearrange tabs and set Fundamentals as default
+console.log("Content script loaded on:", window.location.href);
 let scrapedData = null;
 
 function extractTableData() {
@@ -14,8 +14,7 @@ function extractTableData() {
     if (tabs.length >= 4) {
       clearInterval(waitForTabs);
       
-      // Click tabs in new order: Price, Performance, Technical, Fundamentals
-      const tabOrder = [0, 1, 2, 3];
+      const tabOrder = [0, 1, 2, 3]; // Price, Performance, Technical, Fundamentals
       tabOrder.forEach((index, arrIndex) => {
         setTimeout(() => {
           tabs[index].click();
@@ -87,6 +86,18 @@ function extractTableData() {
     }
   }, 2000);
 }
+
+// Listen for messages from popup.js
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "requestData") {
+    if (scrapedData) {
+      sendResponse({ type: "scrapedData", data: scrapedData });
+    } else {
+      sendResponse({ type: "noData", message: "No data available yet. Please wait or refresh the page." });
+    }
+  }
+  return true; // Indicates asynchronous response
+});
 
 window.addEventListener('load', () => {
   extractTableData();
