@@ -87,7 +87,7 @@ async function insertDataIntoSheet(authToken, spreadsheetId, data) {
 }
 
 function formatDataForSheets(data) {
-    const headers = ["Stock", "Last", "High", "Low", "Chg", "Chg%", "Volume", "Time", "Daily", "Weekly", "Monthly", "YTD"];
+    const headers = ["Stock", "Last", "High", "Low", "Chg", "Chg%", "Volume", "Time", "Daily", "1Week", "1Month", "YTD","1 Year", "3 Years", 'Hourly','Daily','Weekly','Monthly','Avg Vol','Market Cap','Revenue','P/E Ratio','Beta'];
     const rows = [headers];
     data.price.forEach((row, index) => {
         rows.push([
@@ -100,9 +100,20 @@ function formatDataForSheets(data) {
             row.volume,
             row.time,
             data.performance[index]?.daily || "N/A",
+            data.performance[index]?.week || "N/A",
+            data.performance[index]?.month || "N/A",
+            data.performance[index]?.ytd || "N/A",
+            data.performance[index]?.oneYear || "N/A",
+            data.performance[index]?.threeYears || "N/A",
+            data.technical[index]?.hourly || "N/A",
+            data.technical[index]?.daily || "N/A",
             data.technical[index]?.weekly || "N/A",
             data.technical[index]?.monthly || "N/A",
-            data.performance[index]?.ytd || "N/A"
+            data.fundamental[index]?.avgVolume3m || "N/A",
+            data.fundamental[index]?.marketCap || "N/A",
+            data.fundamental[index]?.revenue || "N/A",
+            data.fundamental[index]?.peRatio || "N/A",
+            data.fundamental[index]?.beta || "N/A"
         ]);
     });
     return rows;

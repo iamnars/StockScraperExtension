@@ -30,7 +30,35 @@ function extractTableData() {
               const stockName = cells[0]?.textContent.trim() || 'N/A';
               let rowData = { stock: stockName };
               
-              if (index === 3) { // Price tab
+              if (index === 3) { // Fundamentals tab
+                rowData = {
+                  stock: stockName,
+                  avgVolume3m: cells[1]?.textContent.trim() || 'N/A',
+                  marketCap: cells[2]?.textContent.trim() || 'N/A',
+                  revenue: cells[3]?.textContent.trim() || 'N/A',
+                  peRatio: cells[4]?.textContent.trim() || 'N/A',
+                  beta: cells[5]?.textContent.trim() || 'N/A'
+                };
+               } else if (index === 2) { // Technical
+                rowData = {
+                  stock: stockName,
+                  hourly: cells[1]?.textContent.trim() || 'N/A',
+                  daily: cells[2]?.textContent.trim() || 'N/A',
+                  weekly: cells[3]?.textContent.trim() || 'N/A',
+                  monthly: cells[4]?.textContent.trim() || 'N/A'
+                };
+              } else if (index === 1) { // Performance
+                rowData = {
+                  stock: stockName,
+                  daily: cells[1]?.textContent.trim() || 'N/A',
+                  week: cells[2]?.textContent.trim() || 'N/A',
+                  month: cells[3]?.textContent.trim() || 'N/A',
+                  ytd: cells[4]?.textContent.trim() || 'N/A',
+                  oneYear: cells[5]?.textContent.trim() || 'N/A',
+                  threeYears: cells[6]?.textContent.trim() || 'N/A'
+                };
+              
+              } else if (index === 0) { // Price
                 rowData = {
                   stock: stockName,
                   last: cells[1]?.textContent.trim() || 'N/A',
@@ -41,39 +69,15 @@ function extractTableData() {
                   volume: cells[6]?.textContent.trim() || 'N/A',
                   time: cells[7]?.textContent.trim() || 'N/A'
                 };
-              } else if (index === 2) { // Performance
-                rowData = {
-                  stock: stockName,
-                  daily: cells[1]?.textContent.trim() || 'N/A',
-                  week: cells[2]?.textContent.trim() || 'N/A',
-                  month: cells[3]?.textContent.trim() || 'N/A',
-                  ytd: cells[4]?.textContent.trim() || 'N/A'
-                };
-              } else if (index === 1) { // Technical
-                rowData = {
-                  stock: stockName,
-                  daily: cells[1]?.textContent.trim() || 'N/A',
-                  weekly: cells[2]?.textContent.trim() || 'N/A',
-                  monthly: cells[3]?.textContent.trim() || 'N/A'
-                };
-              } else if (index === 0) { // Fundamentals
-                rowData = {
-                  stock: stockName,
-                  avgVolume3m: cells[1]?.textContent.trim() || 'N/A',
-                  marketCap: cells[2]?.textContent.trim() || 'N/A',
-                  revenue: cells[3]?.textContent.trim() || 'N/A',
-                  peRatio: cells[4]?.textContent.trim() || 'N/A',
-                  beta: cells[5]?.textContent.trim() || 'N/A'
-                };
               }
               
               tabData.push(rowData);
             });
             
-            if (index === 3) data.price = tabData;
-            else if (index === 2) data.performance = tabData;
-            else if (index === 1) data.technical = tabData;
-            else if (index === 0) data.fundamental = tabData;
+            if (index === 0) data.price = tabData;
+            else if (index === 1) data.performance = tabData;
+            else if (index === 2) data.technical = tabData;
+            else if (index === 3) data.fundamental = tabData;
             
             if (arrIndex === tabOrder.length - 1) {
               tabs[3].click(); // Set Fundamentals as active tab
